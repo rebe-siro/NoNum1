@@ -1,64 +1,59 @@
-#include "instituto.h"
-#include "menu.h"
+#include "candidato.h"
+#include "mesaElectoral.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
+	MesaElectoral mesa;
+    int opcionInicial;
+    
+    // MenÃº inicial
+    cout << "Bienvenido al sistema de gestiÃ³n de la mesa electoral." << endl;
+    cout << "1. Entrar al sistema de gestiÃ³n de candidatos" << endl;
+    cout << "2. Salir" << endl;
+    cout << "Elige una opciÃ³n: ";
+    cin >> opcionInicial;
 
-   // Variables
-   int entradaMenu;
-   bool cerrarPrograma = false;
+    if (opcionInicial == 1) {
+        int opcion;
+        do {
+            cout << "\n--- MenÃº de gestiÃ³n de candidatos ---" << endl;
+            cout << "1. Registrar candidato" << endl;
+            cout << "2. Mostrar candidatos" << endl;
+            cout << "3. Salir" << endl;
+            cout << "Elige una opciÃ³n: ";
+            cin >> opcion;
 
-   // Objetos 
-   Instituto instituto = Instituto();
-   Menu      menu = Menu();
+            switch(opcion) {
+                case 1: {
+                    string nombre, partido;
 
-   while(!cerrarPrograma) { // ciclo en espera por entrada del usuario
+                    cout << "Nombre del candidato: ";
+                    cin.ignore(); // Limpiar el buffer de entrada
+                    getline(cin, nombre);
+                    cout << "Partido del candidato: ";
+                    getline(cin, partido);
 
-      entradaMenu = menu.MostrarMenu(); 
+                    Candidato candidato(nombre, partido);
+                    mesa.registrarCandidato(candidato);
+                    break;
+                }
+                case 2:
+                    mesa.mostrarCandidatos();
+                    break;
+                case 3:
+                    cout << "Saliendo del sistema de gestiÃ³n de candidatos." << endl;
+                    break;
+                default:
+                    cout << "OpciÃ³n no vÃ¡lida. Intenta de nuevo." << endl;
+            }
+        } while (opcion != 3);
+    } else if (opcionInicial == 2) {
+        cout << "Saliendo del programa." << endl;
+    } else {
+        cout << "OpciÃ³n no vÃ¡lida. Terminando el programa." << endl;
+    }
 
-      switch (entradaMenu) {
-      
-         case 1: // Crear mesa
-         
-            instituto.NuevaMesa();
-            break;
-
-         case 2:
-
-            instituto.ProcesarVotante();
-            break;
-
-         case 3:
-
-            instituto.ListarMesas();
-            break;
-
-         case 4:
-
-            instituto.ListarVotantes();
-            break;
-
-         case 5:
-
-            instituto.EliminarMesa();
-            break;
-
-         case 6:
-
-            instituto.EliminarEstudiante();
-            break;
-
-         case 0: // Salir
-
-            cerrarPrograma = true;
-            break;
-
-         default:
-            break;
-      }
-   }
-
-   return 0;
+    return 0;
 }
